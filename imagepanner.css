@@ -1,0 +1,46 @@
+.pan{
+	position: relative;
+	overflow: hidden;
+	width: 100%; /* default pan container width */
+	height: 100%; /* default pan container height */
+}
+
+.pan img{
+	display: block;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+ul.zoomcontrols{
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	
+	list-style: none;
+	top: 8px;
+	right: 5px;
+	display: block;
+
+	opacity: 0.5;
+	cursor: pointer;
+	padding: 5px;
+}
+
+ul.zoomcontrols li{
+	display: block;
+	margin: 5px;
+	width: 30px;
+	height: 30px;
+	font: bold 2em Arial;
+	text-align: center;
+	color: black;
+	background: #eee;
+	border-radius: 5px;
+}
+
+ul.zoomcontrols li:hover{
+	background: #D1D1D1;
+}

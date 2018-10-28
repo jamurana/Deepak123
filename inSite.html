@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="icon" href="https://www.auav.com.au/favicon.png" type="image/x-icon" />
+    <title>AUAV inSite&trade;</title>
+    <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
+    
+    <style>@import url(modules/cesium/Build/Cesium/Widgets/widgets.css);</style>
+    <style>@import url(css/bootstrap.min.css);</style>
+    <style>@import url(css/inSite.css);</style>
+    <!--<style>@import url(css/jquery.css);</style>-->
+    <style>@import url(css/jquery-ui.css);</style>
+    <style>@import url(css/nanoscroller.min.css);</style>
+   
+    <style>@import url(css/jquery.contextMenu.css);</style>
+    <style>@import url(css/context-menu.css);</style>
+
+    <script src="modules/cesium/Build/Cesium/Cesium.js"></script>
+    <script src="lib/viewerCesiumNavigationMixin.js"></script>
+    <script src="lib/jquery/jquery.js"></script>
+    <script src="lib/jquery/jquery-ui.js"></script>
+    <script src="lib/jquery/jquery.panzoom.js"></script>    
+    <script src="lib/jquery/jquery.mousewheel.min.js"></script>
+    <script src="lib/jquery/jquery.nanoscroller.min.js"></script>
+  </head>
+
+  <body>
+  <img src="/icons/sprite/open-iconic.svg" class="iconic-sprite" style="display:none;" />
+    <!-- TOP MENU BOOTSRAP NAV BAR -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark top_head" style="z-index:10">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+          <li class="nav-item dropdown" id="menuNavToDropdownParent">
+            <a class="nav-link dropdown-toggle" href="#" id="menuNavTo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Navigate to Site</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01" id="menuNavToDropdown">
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="menuView" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">View</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" href="#" id="menuTopDownView">Top-Down View</a>
+              <a class="dropdown-item" href="#" id="menuResetView">Reset View</a>
+              <a class="dropdown-item" href="#">Save current view as site default</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown" id="menuLayers">
+            <a class="nav-link dropdown-toggle" href="#" id="menuLayers" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Features</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" id="layerMenuGlobe"   href="#">World Globe</a>
+              <a class="dropdown-item" id="layerMenuModels"  href="#">3D Models</a>
+              <a class="dropdown-item pullout persist" id="layerMenuPhotoView" href="#">Photo Viewer</a>
+              <a class="dropdown-item" id="layerMenuCameras" href="#">Camera Positions</a>
+              <a class="dropdown-item" id="layerMenuSiteMarkers" href="#">Site Markers</a>
+              <a class="dropdown-item" id="layerMenuAnnotations" href="#">Annotations</a>
+            </div>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Help</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown01">
+                <a class="dropdown-item" href="#">Preferences</a>
+                <a class="dropdown-item" href="#">Account Details</a>
+                <a class="dropdown-item" href="#">Log Out</a>
+              </div>
+            </li>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </ul>
+
+        <a class="navbar-brand" href="#">AUAV inSite&trade;&nbsp;&nbsp;</a>
+      </div>
+    </nav>
+
+
+  <div id="appContainer" >
+    <div class="row">
+      <div id="cesiumPanel" class="panel-left context-menu">
+
+      <!-- CESIUM AND IMAGE VIEWER COMPONENTS -->
+      <div id="cesiumContainer" class="cesiumPanel"></div>
+
+      <!--<div id="loadingOverlay"><h1>AUAV inSite&trade; loading...</h1></div>-->
+
+      <!-- TOOLBAR -->
+      <div id="toolbar">
+        <i id="toolbar_select">
+           <img src="icons/svg/location.svg" title="Select (Esc)" alt="Select" class="icon" />
+        </i>
+        <i id="toolbar_point">
+           <img src="icons/svg/map-marker.svg" title="Add Map Pin (P)" alt="Add Map Pin" class="icon" />
+        </i>
+        <i id="toolbar_distance">
+           <img src="icons/svg/measure.svg" title="Measure Distance (D)" alt="Measure Distance" class="icon" />
+        </i>
+        <i id="toolbar_area">
+           <img src="icons/svg/area_measurement.svg" title="Measure Area (A)" alt="Measure Area" class="icon" />
+        </i>
+        <i id="toolbar_angle" >
+           <img src="icons/svg/angle.svg" title="Measure Slope (S)" alt="Measure Slope" class="icon" />
+        </i>
+        <i id="toolbar_buried_pipeline" >
+           <img src="icons/TEMP_buried_pipeline.png" title="Pipeline Depth" alt="Pipeline Depth" class="icon" />
+        </i>
+        <i id="toolbar_trash">
+           <img src="icons/svg/trash.svg" title="Remove All Annotations" alt="Remove All Annotations" class="icon" />
+        </i>
+        <i id="toolbar_layers" >
+           <img src="icons/svg/layers.svg" title="Show Layers" alt="Show Layers" class="icon" />
+        </i>
+        <i id="toolbar_info">
+           <img src="icons/svg/info.svg" title="Get Info" alt="Get Info" class="icon" />
+        </i>
+      </div>
+
+    </div>
+
+    <div id="panelLayers" class="nano">
+      
+      <ul class="list-group nano-content" id="panelLayersList">
+        
+      </ul>
+    </div>
+
+    <div class="loadingBar" id="loadingBar"></div>
+    <div id="statusBar">No data config loaded</div>
+
+    <div class="splitter">
+      <div class="pullout">
+         <img src="icons/svg/collapse-left.svg" alt="icon name"class="icon" />
+      </div>
+    </div>
+
+    <div id="imagePanel" class="panel-right" src="icons/svg/collapse-left.svg"> 
+      <div id="panContainer" class="pan">
+        <div class="panzoom-parent">
+          <img id="panImage" class="panzoom" src=""/>          
+        </div>
+        <div id="twoDtools" class="buttons" >
+          <input type="range" class="zoom-range">
+          <button class="zoom-in"  >
+            <img src="icons/svg/plus.svg" alt="icon name"class="icon" />
+          </button>
+          <button class="zoom-out">
+            <img src="icons/svg/minus.svg" alt="icon name"class="icon" />
+          </button>
+          <button class="reset">
+            <img src="icons/svg/action-undo.svg" alt="icon name"class="icon" />
+          </button>
+        </div>
+      </div>
+      <div id="image-name">
+          <span></span>
+      </div>
+    </div>
+    <div id="infopanel" class="nano">
+      <div class="nano-content"></div>
+    </div>
+
+    <!-- pass a login-derived config token from the server -->
+    <!-- this will be available in the client JS code as: var insiteServerToken = 'xxx' -->
+    <div id="serverToken" class="hidden">
+      {% block serverToken %}
+      {% endblock %}
+    </div>
+
+    <ul id="rightclick-context-menu" class='custom-menu context-menu-list context-menu-root'>
+      <!-- <li class="context-menu-item context-menu-icon context-menu-icon-edit" data-action = "move">
+        Move
+      </li>
+      <li class="context-menu-item context-menu-icon context-menu-icon-delete" data-action = "delete">  
+        Delete
+      </li> -->
+    </ul>
+
+  </body>
+
+    <!-- INCLUDE OTHER inSite JS SCRIPTS (needs to go after jquery) -->
+    
+    <!-- <script src="js/insite_data.js"></script>
+    <script src="js/inSite_userdata.js"></script>
+    <script src="js/inSite_lib.js"></script>
+    <script src="js/inSite_camera.js"></script>
+    <script src="js/insite_annotation.js"></script>
+    <script src="js/site_marker.js"></script>
+    <script src="js/cameraOrbit.js"></script>
+    <script src="js/inSite.js"></script>
+    <script src="js/areaMeasurement.js"></script>
+    <script src="js/insite_config.js"></script>
+    <script src="modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/insite_UI.js"></script>  -->
+
+    <script src="./dist/app.bundle.js"></script>
+    <script src="./dist/runtime.bundle.js"></script>
+    <script src="modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- loaded after jquery + bootstrap so it can use those libs, but get weird startup behavior if all insite/cesium setup happens here -->
+
+    <!-- at some point fix this to not be needed, i.e. create it in the hidden state rather than created open and then hide it -->
+    <script type="text/javascript">insiteHideImagePanel();</script> 
+   
+    <script type="text/javascript">    
+        $(function() { // on ready
+          $("#infopanel").draggable({
+                            cursor: "pointer",
+                            opacity: 0.35,
+                            scroll: false,
+                            containment: "#appContainer"
+                          });
+        })
+    </script>
+  
+</html>

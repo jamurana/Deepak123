@@ -1,0 +1,6 @@
+[submodule "cesium"]
+	path = modules/cesium
+	url = https://github.com/AnalyticalGraphicsInc/cesium.git
+[submodule "modules/bootstrap"]
+	path = modules/bootstrap
+	url = https://github.com/twbs/bootstrap.git
